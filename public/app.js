@@ -89,23 +89,36 @@ async function checkIn(id, button) {
 async function addRegistration(event) {
   event.preventDefault()
   const form = event.target
+  const submit = form.querySelector('button[type="submit"]')
   const message = $('form-message')
-  const body = Object.fromEntries(new FormData(form))
-  const res = await fetch('/api/registrations', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  })
-  const data = await res.json()
-  if (!res.ok) {
+  const showError = (text) => {
     message.className = 'message error'
-    message.textContent = data.error
-    return
+    message.textContent = text
   }
-  message.className = 'message success'
-  message.textContent = `Added ${data.name} (${data.city}).`
-  form.reset()
-  await load()
+  const body = Object.fromEntries(new FormData(form))
+
+  submit.disabled = true
+  message.textContent = ''
+  try {
+    const res = await fetch('/api/registrations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) {
+      showError(data.error || 'Could not save this registration. Please try again.')
+      return
+    }
+    message.className = 'message success'
+    message.textContent = `Added ${data.name} (${data.city}).`
+    form.reset()
+    await load()
+  } catch {
+    showError('Could not reach the server. Check that the app is still running.')
+  } finally {
+    submit.disabled = false
+  }
 }
 
 async function init() {
