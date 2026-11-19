@@ -9,6 +9,7 @@ const hostname = process.env.HOST || '127.0.0.1'
 const app = createApp(new RegistrationStore(DATA_FILE, SAMPLE_FILE), PUBLIC_DIR)
 
 serve({ fetch: app.fetch, port, hostname }, (info) => {
-  console.log(`Event registrations app running at http://localhost:${info.port}`)
+  const shownHost = hostname === '0.0.0.0' || hostname === '127.0.0.1' ? 'localhost' : hostname
+  console.log(`Event registrations app running at http://${shownHost}:${info.port}`)
   console.log(`Data is saved in ${DATA_FILE}`)
 })
