@@ -1,0 +1,3 @@
+node_modules/
+# Live data file. It is created from data/sample-registrations.json on first start.
+data/registrations.json
