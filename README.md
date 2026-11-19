@@ -21,6 +21,8 @@ Open <http://localhost:8787> in your browser. Press `Ctrl+C` in the terminal to 
 
 To use a different port: `PORT=3000 npm start`.
 
+The app has no login, so by default only this computer can open it. To let other devices on your network open it, start it with `HOST=0.0.0.0 npm start`.
+
 ## Where the data lives
 
 | File | What it is |
