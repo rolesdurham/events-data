@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { bodyLimit } from 'hono/body-limit'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { computeStats, filterRegistrations, toCsv } from './registrations'
 import type { RegistrationStore } from './store'
@@ -29,7 +30,12 @@ export function createApp(store: RegistrationStore, publicDir = './public') {
     return c.body('\uFEFF' + toCsv(visible))
   })
 
-  app.post('/api/registrations', async (c) => {
+  const limitBody = bodyLimit({
+    maxSize: 10 * 1024,
+    onError: (c) => c.json({ error: 'Registration is too large.' }, 413),
+  })
+
+  app.post('/api/registrations', limitBody, async (c) => {
     const body = await c.req.json().catch(() => null)
     if (!body || typeof body !== 'object') return c.json({ error: 'Send the registration as JSON.' }, 400)
 

@@ -81,6 +81,12 @@ describe('adding registrations', () => {
     assert.equal((await getList()).stats.total, sample.length)
   })
 
+  it('rejects oversized requests', async () => {
+    const res = await post('/api/registrations', { name: 'x'.repeat(20_000), city: 'Austin', source: 'Email' })
+    assert.equal(res.status, 413)
+    assert.equal((await getList()).stats.total, sample.length)
+  })
+
   it('rejects a body that is not JSON', async () => {
     const res = await app.request('/api/registrations', { method: 'POST', body: 'nope' })
     assert.equal(res.status, 400)
