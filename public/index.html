@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Event Registrations</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Event Registrations</h1>
+      <p class="subtitle">Three-city event series: Chicago, Austin and Denver</p>
+    </header>
+
+    <main>
+      <section class="stats" aria-label="Summary">
+        <div class="card">
+          <div class="label">Total registrations</div>
+          <div class="value" id="stat-total">–</div>
+        </div>
+        <div class="card">
+          <div class="label">Checked in</div>
+          <div class="value" id="stat-checked-in">–</div>
+          <div class="hint" id="stat-checked-in-pct"></div>
+        </div>
+        <div class="card wide">
+          <div class="label">Registrations by source</div>
+          <ul class="sources" id="stat-sources"></ul>
+        </div>
+      </section>
+      <p class="hint" id="stats-scope"></p>
+
+      <section class="toolbar" aria-label="Filters">
+        <label>
+          City
+          <select id="filter-city"><option value="">All cities</option></select>
+        </label>
+        <label>
+          Attendance
+          <select id="filter-status"><option value="">All statuses</option></select>
+        </label>
+        <button type="button" id="clear-filters" class="secondary">Clear filters</button>
+        <span class="spacer"></span>
+        <button type="button" id="export-csv">Export visible as CSV</button>
+      </section>
+
+      <div class="layout">
+        <section class="table-wrap" aria-label="Registrations">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>City</th>
+                <th>Source</th>
+                <th>Attendance</th>
+                <th><span class="visually-hidden">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+          <p id="empty" class="empty" hidden>No registrations match these filters.</p>
+        </section>
+
+        <section class="panel" aria-labelledby="add-title">
+          <h2 id="add-title">Add a registration</h2>
+          <form id="add-form" novalidate>
+            <label>Name <input name="name" required maxlength="100" autocomplete="off" /></label>
+            <label>Company <input name="company" maxlength="100" autocomplete="off" /></label>
+            <label>City <select name="city" id="form-city" required></select></label>
+            <label>Source <select name="source" id="form-source" required></select></label>
+            <button type="submit">Add registration</button>
+            <p id="form-message" class="message" role="status"></p>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

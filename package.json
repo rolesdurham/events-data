@@ -1,0 +1,27 @@
+{
+  "name": "event-registrations",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Track registrations for a three-city event series",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
+    "reset-data": "tsx scripts/reset-data.ts",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.8",
+    "hono": "4.13.17"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3"
+  }
+}
